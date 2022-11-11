@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductDetailController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +20,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+
+Route::resource('category', CategoryController::class)->except(['show']);
+Route::resource('product', ProductController::class)->except(['show']);
+Route::resource('productDetail', ProductDetailController::class)->except(['show']);
+Route::resource('order', OrderController::class)->except(['show']);
+Route::get('product/create/{id}',[ProductController::class,'productDetail'])->name('productDetail');
+
 });
